@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blackwork Studio - Salamá</title>
+    <style>
+        :root {
+            --bg: #080808;
+            --card: #141414;
+            --accent: #00ff88;
+            --text: #ffffff;
+            --muted: #8e8e8e;
+            --wa: #25D366;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: var(--card);
+            width: 100%;
+            max-width: 440px;
+            padding: 25px;
+            border-radius: 32px;
+            border: 1px solid #222;
+            box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 2px; font-weight: 900; }
+        .header p { color: var(--accent); margin: 5px 0 0; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; }
+        
+        input, select {
+            width: 100%;
+            background: #1e1e1e;
+            border: 2px solid #252525;
+            color: white;
+            padding: 14px;
+            border-radius: 16px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus, select:focus { border-color: var(--accent); }
+
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 18px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #result-box {
+            margin-top: 25px;
+            display: none;
+            background: #1a1a1a;
+            padding: 22px;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid var(--accent);
+        }
+
+        .price { font-size: 3rem; font-weight: 900; color: var(--accent); margin: 10px 0; }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .btn-action { border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; }
+        .btn-wa { background: var(--wa); color: white; }
+        .btn-copy { background: #333; color: white; }
+
+        .history { width: 100%; max-width: 440px; margin-top: 25px; }
+        .history h3 { font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .history-item { 
+            background: #151515; 
+            padding: 12px 15px; 
+            border-radius: 15px; 
+            margin-bottom: 8px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 3px solid var(--accent);
+        }
+
+        .btn-aftercare { 
+            background: transparent; 
+            border: 1px solid #444; 
+            color: var(--muted); 
+            padding: 12px; 
+            border-radius: 14px; 
+            width: 100%; 
+            max-width: 440px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>BLACKWORK STUDIO</h1>
+        <p>Salamá • Cotizador Master</p>
+    </div>
+
+    <div class="form-row">
+        <div class="input-group">
+            <label>💰 Moneda</label>
+            <select id="currency">
+                <option value="Q">GTQ (Q)</option>
+                <option value="$">USD ($)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>📏 Tamaño (cm)</label>
+            <input type="number" id="size" placeholder="0" inputmode="numeric">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>📍 Zona del Cuerpo</label>
+        <input type="text" id="area" placeholder="Ej: Antebrazo">
+    </div>
+
+    <div class="input-group">
+        <label>🎨 Estilo</label>
+        <select id="style">
+            <option value="1.0">Línea Fina / Minimalista</option>
+            <option value="1.25">Sombreado / Detalle Medio</option>
+            <option value="1.5">Sólido / Blackout / Realismo</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <div class="input-group">
+            <label>✨ Diseño</label>
+            <select id="custom">
+                <option value="0">Catálogo</option>
+                <option value="150">Personalizado</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>🔄 Cover-up</label>
+            <select id="cover">
+                <option value="1.0">No</option>
+                <option value="1.3">Sí (+30%)</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="button" class="btn-primary" onclick="calculate()">CALCULAR PRECIO</button>
+
+    <div id="result-box">
+        <div class="price" id="price-display">Q0</div>
+        <div class="action-grid">
+            <button class="btn-action btn-wa" onclick="sendWhatsApp()">ENVIAR WA 📲</button>
+            <button class="btn-action btn-copy" id="btnCopy" onclick="copyQuote()">COPIAR 📋</button>
+        </div>
+    </div>
+</div>
+
+<div class="history">
+    <h3>HISTORIAL RECIENTE 🕒</h3>
+    <div id="history-list"></div>
+</div>
+
+<button class="btn-aftercare" onclick="copyAftercare()">🧼 Copiar Cuidados Posteriores</button>
+
+<script>
+    let quoteData = {};
+
+    function calculate() {
+        const size = document.getElementById('size').value;
+        const area = document.getElementById('area').value || "la zona elegida";
+        const factor = parseFloat(document.getElementById('style').value);
+        const extra = parseFloat(document.getElementById('custom').value);
+        const cover = parseFloat(document.getElementById('cover').value);
+        const currency = document.getElementById('currency').value;
+
+        if(!size || size <= 0) return alert("Por favor, ingresa el tamaño");
+
+        // Lógica de horas nivel intermedio - Salamá
+        let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
+        if (size <= 6) hours = 1;
+
+        let rate = (factor >= 1.5) ? 300 : 250;
+        let total = 250 + (hours * rate * factor);
+        total = (total + extra) * cover;
+        
+        if(currency === '$') total = total / 7.8;
+        total = Math.ceil(total / 10) * 10;
+
+        quoteData = { total, size, area, currency };
+        
+        document.getElementById('price-display').innerText = `${currency}${total}`;
+        document.getElementById('result-box').style.display = 'block';
+
+        saveToHistory(quoteData);
+    }
+
+    function saveToHistory(data) {
+        let history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
+        history.unshift(data);
+        history = history.slice(0, 3);
+        localStorage.setItem('tattoo_history', JSON.stringify(history));
+        updateHistoryUI();
+    }
+
+    function updateHistoryUI() {
+        const list = document.getElementById('history-list');
+        const history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
+        list.innerHTML = history.map(h => `
+            <div class="history-item">
+                <span>${h.size}cm en ${h.area} 🖋️</span>
+                <strong style="color:var(--accent)">${h.currency}${h.total}</strong>
+            </div>
+        `).join('');
+    }
+
+    function getMessage() {
+        return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n💰 Precio: *${quoteData.currency}${quoteData.total}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 Te gustaría agendar una fecha?`;
+    }
+
+    function copyQuote() {
+        fallbackCopy(getMessage(), "btnCopy", "COPIAR 📋");
+    }
+
+    function sendWhatsApp() {
+        window.open(`https://wa.me/?text=${encodeURIComponent(getMessage())}`, '_blank');
+    }
+
+    function copyAftercare() {
+        const care = `✨ CUIDADOS POSTERIORES ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada 3 veces al día. 🧴\n5. No sol, piscina o gym por 15 días. 🚫\n6. No rascar la zona.`;
+        fallbackCopy(care, null, null);
+        alert("Instrucciones de cuidado copiadas! ✨");
+    }
+
+    function fallbackCopy(text, btnId, originalText) {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        if(btnId) {
+            const btn = document.getElementById(btnId);
+            btn.innerText = "COPIADO ✅";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+    }
+
+    updateHistoryUI();
+</script>
+</body>
+</html>
