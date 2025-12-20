@@ -6,121 +6,181 @@
     <title>Blackwork Studio - Salamá</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+
     <style>
+        /* --- CONFIGURA LOS COLORES DE TU LOGO AQUÍ --- */
         :root {
-            --bg: #080808;
-            --card: #141414;
-            --accent: #00ff88;
-            --text: #ffffff;
-            --muted: #8e8e8e;
-            --wa: #25D366;
+            --primary-color: #00ff88;  /* Color principal de tu logo */
+            --secondary-color: #1a1a1a; /* Color de fondo o secundario */
+            --accent-glow: rgba(0, 255, 136, 0.3); /* Brillo basado en tu color */
+            --bg-dark: #080808;
+            --card-glass: rgba(22, 22, 22, 0.95);
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
         }
 
         body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top right, #1a1a1a, #080808);
+            color: var(--text-light);
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
+            padding: 20px 15px;
             min-height: 100vh;
-            /* Ajuste para que la barra de estado se vea bien en iPhone */
-            padding-top: env(safe-area-inset-top); 
+            box-sizing: border-box;
         }
 
         .card {
-            background: var(--card);
+            background: var(--card-glass);
             width: 100%;
             max-width: 440px;
-            padding: 25px;
-            border-radius: 32px;
-            border: 1px solid #222;
-            box-sizing: border-box;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            padding: 30px;
+            border-radius: 35px;
+            border: 1px solid #333;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
         }
 
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 2px; font-weight: 900; }
-        .header p { color: var(--accent); margin: 5px 0 0; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        /* --- ENCABEZADO CON LOGO --- */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; }
+        .header img {
+            width: 80px; /* Tamaño del logo en el encabezado */
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 15px; /* Opcional: bordes redondeados para el logo */
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            color: var(--primary-color);
+            margin: 5px 0 0;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        /* --- INPUTS Y FORMULARIO --- */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .input-group { margin-bottom: 18px; }
+        
+        label {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
         
         input, select {
             width: 100%;
-            background: #1e1e1e;
-            border: 2px solid #252525;
+            background: #222;
+            border: 2px solid #222;
             color: white;
-            padding: 14px;
+            padding: 15px;
             border-radius: 16px;
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
+            transition: all 0.3s ease;
         }
 
-        input:focus, select:focus { border-color: var(--accent); }
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            background: #282828;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
 
-        .btn-primary {
+        .btn-calc {
             width: 100%;
             padding: 18px;
-            background: white;
-            color: black;
+            background: #fff;
+            color: #000;
             border: none;
             border-radius: 18px;
             font-weight: 900;
             font-size: 1.1rem;
             cursor: pointer;
             margin-top: 10px;
+            transition: 0.3s;
         }
 
+        .btn-calc:active { transform: scale(0.96); }
+
+        /* --- RESULTADOS --- */
         #result-box {
             margin-top: 25px;
             display: none;
-            background: #1a1a1a;
-            padding: 22px;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 25px;
             text-align: center;
-            border: 1px solid var(--accent);
+            border: 1px solid var(--primary-color);
+            animation: fadeIn 0.4s ease;
         }
 
-        .price { font-size: 3rem; font-weight: 900; color: var(--accent); margin: 10px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .btn-action { border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; }
-        .btn-wa { background: var(--wa); color: white; }
-        .btn-copy { background: #333; color: white; }
-
-        .history { width: 100%; max-width: 440px; margin-top: 25px; }
-        .history h3 { font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid #333; padding-bottom: 8px; }
-        .history-item { 
-            background: #151515; 
-            padding: 12px 15px; 
-            border-radius: 15px; 
-            margin-bottom: 8px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-left: 3px solid var(--accent);
+        .price {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin: 10px 0;
+            text-shadow: 0 0 15px var(--accent-glow);
         }
 
-        .btn-aftercare { 
-            background: transparent; 
-            border: 1px solid #444; 
-            color: var(--muted); 
-            padding: 12px; 
-            border-radius: 14px; 
-            width: 100%; 
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .btn-act { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-cp { background: #333; color: white; }
+
+        /* --- HISTORIAL --- */
+        .history { width: 100%; max-width: 440px; margin-top: 30px; }
+        .history h3 { font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
+        .history-item {
+            background: #151515;
+            padding: 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .btn-aftercare {
+            background: transparent;
+            border: 1px solid #444;
+            color: var(--text-muted);
+            padding: 14px;
+            border-radius: 15px;
+            width: 100%;
             max-width: 440px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -128,8 +188,9 @@
 
 <div class="card">
     <div class="header">
+        <img src="logo.png" alt="Logo">
         <h1>BLACKWORK STUDIO</h1>
-        <p>Salamá • Cotizador Master</p>
+        <p>Salamá • Cotizador Pro</p>
     </div>
 
     <div class="form-row">
@@ -152,7 +213,7 @@
     </div>
 
     <div class="input-group">
-        <label>🎨 Estilo</label>
+        <label>🎨 Estilo & Sombras</label>
         <select id="style">
             <option value="1.0">Línea Fina / Minimalista</option>
             <option value="1.25">Sombreado / Detalle Medio</option>
@@ -177,13 +238,13 @@
         </div>
     </div>
 
-    <button type="button" class="btn-primary" onclick="calculate()">CALCULAR PRECIO</button>
+    <button type="button" class="btn-calc" onclick="calculate()">CALCULAR PRECIO</button>
 
     <div id="result-box">
         <div class="price" id="price-display">Q0</div>
-        <div class="action-grid">
-            <button class="btn-action btn-wa" onclick="sendWhatsApp()">ENVIAR WA 📲</button>
-            <button class="btn-action btn-copy" id="btnCopy" onclick="copyQuote()">COPIAR 📋</button>
+        <div class="action-btns">
+            <button class="btn-act btn-wa" onclick="sendWhatsApp()">WhatsApp 📲</button>
+            <button class="btn-act btn-cp" id="btnCopy" onclick="copyQuote()">Copiar 📋</button>
         </div>
     </div>
 </div>
@@ -193,7 +254,7 @@
     <div id="history-list"></div>
 </div>
 
-<button class="btn-aftercare" onclick="copyAftercare()">🧼 Copiar Cuidados Posteriores</button>
+<button class="btn-aftercare" onclick="copyAftercare()">📋 Instrucciones de Cuidados (Aftercare)</button>
 
 <script>
     let quoteData = {};
@@ -206,9 +267,9 @@
         const cover = parseFloat(document.getElementById('cover').value);
         const currency = document.getElementById('currency').value;
 
-        if(!size || size <= 0) return alert("Por favor, ingresa el tamaño");
+        if(!size || size <= 0) return alert("Por favor, ingresa el tamaño del tatuaje");
 
-        // Lógica de horas nivel intermedio - Salamá
+        // Lógica de horas (Nivel Intermedio - Salamá)
         let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
         if (size <= 6) hours = 1;
 
@@ -241,7 +302,7 @@
         list.innerHTML = history.map(h => `
             <div class="history-item">
                 <span>${h.size}cm en ${h.area} 🖋️</span>
-                <strong style="color:var(--accent)">${h.currency}${h.total}</strong>
+                <strong style="color:var(--primary-color)">${h.currency}${h.total}</strong>
             </div>
         `).join('');
     }
@@ -251,7 +312,7 @@
     }
 
     function copyQuote() {
-        fallbackCopy(getMessage(), "btnCopy", "COPIAR 📋");
+        fallbackCopy(getMessage(), "btnCopy", "Copiar 📋");
     }
 
     function sendWhatsApp() {
@@ -261,7 +322,7 @@
     function copyAftercare() {
         const care = `✨ CUIDADOS POSTERIORES ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada 3 veces al día. 🧴\n5. No sol, piscina o gym por 15 días. 🚫\n6. No rascar la zona.`;
         fallbackCopy(care, null, null);
-        alert("Instrucciones de cuidado copiadas! ✨");
+        alert("Instrucciones de cuidado copiadas!");
     }
 
     function fallbackCopy(text, btnId, originalText) {
