@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blackwork Studio - Salamá</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
     <style>
         :root {
             --bg: #080808;
@@ -24,6 +31,8 @@
             align-items: center;
             padding: 10px;
             min-height: 100vh;
+            /* Ajuste para que la barra de estado se vea bien en iPhone */
+            padding-top: env(safe-area-inset-top); 
         }
 
         .card {
