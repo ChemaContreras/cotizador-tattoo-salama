@@ -58,7 +58,7 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 25px;
-        }
+        }                        
 
         .header img {
             width: 80px;
@@ -269,7 +269,7 @@
 
         if (isBeginner) {
             card.classList.add('beginner-mode');
-            subHeader.innerText = "Salamá • Modo Práctica";
+            subHeader.innerText = "Salamá • Precio Especial";
             subHeader.style.color = "var(--beginner-color)";
         } else {
             card.classList.remove('beginner-mode');
@@ -334,7 +334,7 @@
     }
 
     function getMessage() {
-        const tag = quoteData.isBeginner ? "Tarifa especial de práctica 🏷️\n" : "";
+        const tag = quoteData.isBeginner ? "Precio Especial  🏷️\n" : "";
         return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n💰 Precio: *${quoteData.currency}${quoteData.total}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 Te gustaría agendar una fecha?`;
     }
 
@@ -370,6 +370,7 @@
 </script>
 </body>
 </html>
+
 
 
 
