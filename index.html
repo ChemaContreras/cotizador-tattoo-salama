@@ -91,10 +91,6 @@
         }
         input:focus, select:focus { border-color: var(--primary); }
 
-        /* Estilo para los grupos dentro del select */
-        optgroup { background: #111; color: var(--primary); font-style: normal; font-weight: 800; }
-        option { background: #151515; color: white; }
-
         .btn-main {
             width: 100%; padding: 20px; background: white; color: black; border: none;
             border-radius: 20px; font-weight: 900; font-size: 1.1rem; cursor: pointer; text-transform: uppercase;
@@ -131,7 +127,7 @@
     <div class="header">
         <div class="logo-container">
             <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-            <i class="fas fa-certificate" style="display:none;"></i> 
+            <i class="fas fa-hand-sparkles" style="display:none;"></i> 
         </div>
         <h1>PEACE N' LOVE</h1>
         <h1>Tattoo Studio</h1>
@@ -167,10 +163,12 @@
         <div class="input-box">
             <label>🎨 Estilo</label>
             <select id="style">
-                <option value="1.0">Línea Fina</option>
-                <option value="1.3">Ilustrativo</option>
-                <option value="1.5">Blackwork</option>
-                <option value="1.8">Realismo</option>
+                <option value="1.0">Línea Fina / Minimalista</option>
+                <option value="1.2">Sombreado / Ilustrativo</option>
+                <option value="1.3">Color / Floral</option>
+                <option value="1.5">Blackwork / Tradicional</option>
+                <option value="1.7">Blackout / Sólido</option>
+                <option value="2.0">Realismo / Detalle Máximo</option>
             </select>
         </div>
         <div class="input-box">
@@ -190,37 +188,22 @@
             <option value="" disabled selected>Selecciona la zona...</option>
             <optgroup label="Cabeza y Cuello">
                 <option value="Cara / Cabeza">Cara / Cabeza</option>
-                <option value="Detrás de la oreja">Detrás de la oreja</option>
-                <option value="Cuello">Cuello</option>
-                <option value="Nuca">Nuca</option>
+                <option value="Cuello / Nuca">Cuello / Nuca</option>
             </optgroup>
             <optgroup label="Tronco">
-                <option value="Hombro">Hombro</option>
-                <option value="Clavícula">Clavícula</option>
-                <option value="Pecho / Esternón">Pecho / Esternón</option>
-                <option value="Costillas / Lateral">Costillas / Lateral</option>
-                <option value="Abdomen">Abdomen</option>
-                <option value="Espalda Alta">Espalda Alta</option>
-                <option value="Espalda Baja">Espalda Baja</option>
-                <option value="Columna vertebral">Columna vertebral</option>
+                <option value="Pecho / Clavícula">Pecho / Clavícula</option>
+                <option value="Costillas / Abdomen">Costillas / Abdomen</option>
+                <option value="Espalda (Completa/Alta/Baja)">Espalda</option>
             </optgroup>
-            <optgroup label="Brazos y Manos">
-                <option value="Brazo (Bíceps/Tríceps)">Brazo (Bíceps/Tríceps)</option>
-                <option value="Codo">Codo</option>
+            <optgroup label="Extremidades Superiores">
+                <option value="Brazo / Hombro">Brazo / Hombro</option>
                 <option value="Antebrazo">Antebrazo</option>
-                <option value="Muñeca">Muñeca</option>
-                <option value="Mano">Mano</option>
-                <option value="Dedos">Dedos</option>
+                <option value="Muñeca / Mano / Dedos">Mano / Dedos</option>
             </optgroup>
-            <optgroup label="Piernas y Pies">
-                <option value="Cadera / Pelvis">Cadera / Pelvis</option>
-                <option value="Glúteo">Glúteo</option>
-                <option value="Muslo">Muslo</option>
-                <option value="Rodilla">Rodilla</option>
-                <option value="Espinilla">Espinilla</option>
-                <option value="Pantorrilla">Pantorrilla</option>
-                <option value="Tobillo">Tobillo</option>
-                <option value="Pie / Empeine">Pie / Empeine</option>
+            <optgroup label="Extremidades Inferiores">
+                <option value="Muslo / Pierna">Muslo / Pierna</option>
+                <option value="Pantorrilla / Rodilla">Pantorrilla / Rodilla</option>
+                <option value="Tobillo / Pie">Tobillo / Pie</option>
             </optgroup>
         </select>
     </div>
@@ -283,7 +266,7 @@
         const areaSelect = document.getElementById('area');
         
         if(!size) return alert("Por favor, ingresa el tamaño.");
-        if(!areaSelect.value) return alert("Por favor, selecciona una zona del cuerpo.");
+        if(!areaSelect.value) return alert("Por favor, selecciona una zona.");
 
         const isLight = document.getElementById('beginnerToggle').checked;
         const styleFactor = parseFloat(document.getElementById('style').value);
@@ -293,6 +276,7 @@
         const currency = document.getElementById('currency').value;
         const name = document.getElementById('clientName').value;
 
+        // Lógica de horas base por tamaño
         let hours = size > 18 ? 5 : (size > 10 ? 3 : (size > 5 ? 2 : 1));
         let baseRate = isLight ? 150 : 250; 
         let total = (baseRate * hours * styleFactor * coverFactor) + extra;
@@ -303,11 +287,7 @@
         let deposit = Math.ceil((total * 0.5) / 5) * 5;
         let perSession = Math.ceil((total / numSessions) / 5) * 5;
 
-        currentData = { 
-            total, deposit, size, hours, currency, 
-            area: areaSelect.value, 
-            isLight, name, numSessions, perSession 
-        };
+        currentData = { total, deposit, size, hours, currency, area: areaSelect.value, isLight, name, numSessions, perSession };
 
         document.getElementById('res-price').innerText = `${currency}${total}`;
         const sessionDetail = document.getElementById('res-session-detail');
