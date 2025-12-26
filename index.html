@@ -19,7 +19,7 @@
             --card-glass: rgba(22, 22, 22, 0.95);
             --text-light: #ffffff;
             --text-muted: #a0a0a0;
-            --beginner-color: #ffcc00; /* Color ámbar para modo principiante */
+            --beginner-color: #ffcc00;
         }
 
         body {
@@ -58,7 +58,7 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 25px;
-        }                        
+        }
 
         .header img {
             width: 80px;
@@ -83,10 +83,8 @@
             font-size: 0.7rem;
             font-weight: 800;
             letter-spacing: 1.5px;
-            transition: color 0.3s;
         }
 
-        /* --- TOGGLE MODO PRINCIPIANTE --- */
         .mode-switch {
             display: flex;
             align-items: center;
@@ -130,9 +128,7 @@
         input:checked + .slider:before { transform: translateX(20px); }
 
         .mode-label { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: var(--text-muted); }
-        input:checked ~ .mode-label-active { color: var(--beginner-color); }
 
-        /* --- FORMULARIO --- */
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
@@ -158,19 +154,29 @@
 
         #result-box {
             margin-top: 25px; display: none; background: rgba(255, 255, 255, 0.03);
-            padding: 25px; border-radius: 25px; text-align: center; border: 1px solid var(--primary-color);
+            padding: 22px; border-radius: 25px; text-align: center; border: 1px solid var(--primary-color);
+            animation: fadeIn 0.4s ease;
         }
 
-        .price { font-size: 3.2rem; font-weight: 900; color: var(--primary-color); margin: 10px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .price { font-size: 3.2rem; font-weight: 900; color: var(--primary-color); margin: 5px 0; }
+        
+        .time-est {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
         .btn-act { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
         .btn-wa { background: #25D366; color: white; }
         .btn-cp { background: #333; color: white; }
 
         .history { width: 100%; max-width: 440px; margin-top: 30px; }
         .history h3 { font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
-        .history-item { background: #151515; padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary-color); }
+        .history-item { background: #151515; padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary-color); font-size: 0.85rem; }
 
         .btn-aftercare { background: transparent; border: 1px solid #444; color: var(--text-muted); padding: 14px; border-radius: 15px; width: 100%; max-width: 440px; cursor: pointer; margin-top: 25px; font-size: 0.8rem; font-weight: 600; }
     </style>
@@ -191,7 +197,7 @@
             <input type="checkbox" id="beginnerToggle" onchange="toggleMode()">
             <span class="slider"></span>
         </label>
-        <span class="mode-label mode-label-active">Special Light</span>
+        <span class="mode-label">Special Light</span>
     </div>
 
     <div class="form-row">
@@ -243,6 +249,7 @@
 
     <div id="result-box">
         <div class="price" id="price-display">Q0</div>
+        <div class="time-est" id="time-display">⏱️ Duración: --</div>
         <div class="action-btns">
             <button class="btn-act btn-wa" onclick="sendWhatsApp()">WhatsApp 📲</button>
             <button class="btn-act btn-cp" id="btnCopy" onclick="copyQuote()">Copiar 📋</button>
@@ -264,7 +271,6 @@
         const isBeginner = document.getElementById('beginnerToggle').checked;
         const card = document.getElementById('mainCard');
         const subHeader = document.getElementById('subHeader');
-        const priceDisplay = document.getElementById('price-display');
         const resultBox = document.getElementById('result-box');
 
         if (isBeginner) {
@@ -276,7 +282,6 @@
             subHeader.innerText = "Salamá • Cotizador Pro";
             subHeader.style.color = "var(--primary-color)";
         }
-        // Limpiar resultado anterior al cambiar modo para evitar confusiones
         resultBox.style.display = 'none';
     }
 
@@ -291,12 +296,13 @@
 
         if(!size || size <= 0) return alert("Por favor, ingresa el tamaño del tatuaje");
 
+        // Lógica de Tiempo Estimado (Salamá Intermedio)
+        let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
+        if (size <= 6) hours = 1;
+
         // Lógica de Precios
         const minBase = isBeginner ? 150 : 250;
         const hourlyRate = isBeginner ? 150 : (factor >= 1.5 ? 300 : 250);
-
-        let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
-        if (size <= 6) hours = 1;
 
         let total = minBase + (hours * hourlyRate * factor);
         total = (total + extra) * cover;
@@ -304,10 +310,15 @@
         if(currency === '$') total = total / 7.8;
         total = Math.ceil(total / 10) * 10;
 
-        quoteData = { total, size, area, currency, isBeginner };
+        quoteData = { total, size, area, currency, isBeginner, hours };
         
+        // Actualizar UI
         document.getElementById('price-display').innerText = `${currency}${total}`;
         document.getElementById('price-display').style.color = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
+        
+        const hLabel = hours === 1 ? 'hora' : 'horas';
+        document.getElementById('time-display').innerText = `⏱️ Duración: ${hours} ${hLabel} aprox.`;
+        
         document.getElementById('result-box').style.display = 'block';
         document.getElementById('result-box').style.borderColor = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
 
@@ -325,17 +336,23 @@
     function updateHistoryUI() {
         const list = document.getElementById('history-list');
         const history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
-        list.innerHTML = history.map(h => `
-            <div class="history-item" style="border-left-color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">
-                <span>${h.size}cm en ${h.area} ${h.isBeginner ? '🏷️' : '🖋️'}</span>
-                <strong style="color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">${h.currency}${h.total}</strong>
-            </div>
-        `).join('');
+        list.innerHTML = history.map(h => {
+            const hLabel = h.hours === 1 ? 'hora' : 'horas';
+            return `
+                <div class="history-item" style="border-left-color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">
+                    <span>${h.size}cm en ${h.area} (${h.hours}h) ${h.isBeginner ? '🏷️' : '🖋️'}</span>
+                    <strong style="color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">${h.currency}${h.total}</strong>
+                </div>
+            `;
+        }).join('');
     }
 
     function getMessage() {
-        const tag = quoteData.isBeginner ? "Precio Especial  🏷️\n" : "";
-        return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n💰 Precio: *${quoteData.currency}${quoteData.total}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 Te gustaría agendar una fecha?`;
+        const tag = quoteData.isBeginner ? "Precio Especial 🏷️\n" : "";
+        const hLabel = quoteData.hours === 1 ? 'hora' : 'horas';
+        const timeMsg = `⏱️ Duración: ${quoteData.hours} ${hLabel} aprox.`;
+        
+        return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n${timeMsg}\n💰 Precio: *${quoteData.currency}${quoteData.total}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 Te gustaría agendar una fecha?`;
     }
 
     function copyQuote() {
@@ -370,9 +387,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
