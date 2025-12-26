@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PEACE N' LOVE - Salamá</title>
     
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -45,7 +51,6 @@
 
         .card.beginner-mode { border-color: var(--beginner); }
 
-        /* LOGO RESTAURADO */
         .header { text-align: center; margin-bottom: 25px; }
         .logo-container {
             width: 90px; height: 90px;
@@ -123,7 +128,7 @@
     <div class="header">
         <div class="logo-container">
             <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-            <i class="fas fa-palette" style="display:none;"></i> 
+            <i class="fas fa-eye" style="display:none;"></i> 
         </div>
         <h1>PEACE N' LOVE</h1>
         <h1>Tattoo Studio</h1>
@@ -141,7 +146,7 @@
 
     <div class="input-box">
         <label>👤 Nombre del Cliente</label>
-        <input type="text" id="clientName" placeholder="Ej: Maria Lopez">
+        <input type="text" id="clientName" placeholder="Nombre completo">
     </div>
 
     <div class="form-grid">
@@ -180,14 +185,14 @@
         <label>📍 Zona del Cuerpo</label>
         <input type="text" id="area" list="body-list" placeholder="¿Dónde será el tattoo?">
         <datalist id="body-list">
-            <option value="Cara / Cabeza"><option value="Cuello"><option value="Nuca"><option value="Hombro"><option value="Clavícula"><option value="Pecho"><option value="Costillas"><option value="Abdomen"><option value="Espalda"><option value="Columna"><option value="Brazo"><option value="Antebrazo"><option value="Muñeca"><option value="Mano / Dedos"><option value="Muslo"><option value="Rodilla"><option value="Pantorrilla"><option value="Tobillo"><option value="Pie">
+            <option value="Cara / Cabeza"><option value="Cuello"><option value="Nuca"><option value="Hombro"><option value="Clavícula"><option value="Pecho"><option value="Costillas"><option value="Abdomen"><option value="Espalda"><option value="Brazo"><option value="Antebrazo"><option value="Muñeca"><option value="Mano"><option value="Muslo"><option value="Rodilla"><option value="Pantorrilla"><option value="Tobillo"><option value="Pie">
         </datalist>
     </div>
 
     <div class="form-grid">
         <div class="input-box">
             <label>✨ Diseño</label>
-            <select id="custom"><option value="0">Catálogo</option><option value="150">Personalizado (+150)</option></select>
+            <select id="custom"><option value="0">Flash / Catálogo</option><option value="150">Personalizado (+150)</option></select>
         </div>
         <div class="input-box">
             <label>🔄 Cover Up</label>
@@ -239,7 +244,7 @@
 
     function calculate() {
         const size = parseFloat(document.getElementById('size').value);
-        if(!size) return alert("Por favor, ingresa el tamaño en cm.");
+        if(!size) return alert("Por favor, ingresa el tamaño.");
 
         const isLight = document.getElementById('beginnerToggle').checked;
         const styleFactor = parseFloat(document.getElementById('style').value);
@@ -259,14 +264,9 @@
         let deposit = Math.ceil((total * 0.5) / 5) * 5;
         let perSession = Math.ceil((total / numSessions) / 5) * 5;
 
-        currentData = { 
-            total, deposit, size, hours, currency, 
-            area: document.getElementById('area').value || "la zona elegida", 
-            isLight, name, numSessions, perSession 
-        };
+        currentData = { total, deposit, size, hours, currency, area: document.getElementById('area').value || "la zona elegida", isLight, name, numSessions, perSession };
 
         document.getElementById('res-price').innerText = `${currency}${total}`;
-        
         const sessionDetail = document.getElementById('res-session-detail');
         if(numSessions > 1) {
             sessionDetail.innerText = `${numSessions} sesiones de ${currency}${perSession}`;
@@ -345,4 +345,3 @@
 </script>
 </body>
 </html>
-
