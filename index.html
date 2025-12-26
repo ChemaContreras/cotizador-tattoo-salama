@@ -45,12 +45,12 @@
             border: 1px solid #333;
             backdrop-filter: blur(10px);
             box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .card.beginner-mode {
             border-color: var(--beginner-color);
-            box-shadow: 0 25px 50px rgba(255, 204, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(255, 204, 0, 0.15);
         }
 
         .header {
@@ -61,46 +61,47 @@
         }
 
         .header img {
-            width: 80px;
-            height: 80px;
+            width: 85px;
+            height: 85px;
             object-fit: contain;
-            margin-bottom: 12px;
-            border-radius: 15px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            background: #111;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             letter-spacing: 2px;
             font-weight: 900;
             text-align: center;
-            line-height: 1.2;
         }
 
         .header p {
             color: var(--primary-color);
             margin: 5px 0 0;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         .mode-switch {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 25px;
             background: rgba(255,255,255,0.05);
-            padding: 10px;
+            padding: 12px;
             border-radius: 20px;
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 40px;
-            height: 20px;
+            width: 46px;
+            height: 24px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -111,13 +112,13 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #444;
             transition: .4s;
-            border-radius: 20px;
+            border-radius: 24px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 14px; width: 14px;
+            height: 18px; width: 18px;
             left: 3px; bottom: 3px;
             background-color: white;
             transition: .4s;
@@ -125,24 +126,26 @@
         }
 
         input:checked + .slider { background-color: var(--beginner-color); }
-        input:checked + .slider:before { transform: translateX(20px); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
-        .mode-label { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: var(--text-muted); }
+        .mode-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
 
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        .input-group { margin-bottom: 15px; width: 100%; }
+        
+        label { display: block; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
         input, select {
             width: 100%;
-            background: #222;
-            border: 2px solid #222;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
             color: white;
             padding: 14px;
             border-radius: 16px;
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
+            transition: border 0.3s;
         }
 
         input:focus, select:focus { border-color: var(--primary-color); }
@@ -150,7 +153,9 @@
         .btn-calc {
             width: 100%; padding: 18px; background: #fff; color: #000; border: none;
             border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-top: 10px;
+            transition: transform 0.1s;
         }
+        .btn-calc:active { transform: scale(0.98); }
 
         #result-box {
             margin-top: 25px; display: none; background: rgba(255, 255, 255, 0.03);
@@ -160,14 +165,11 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .price { font-size: 3.2rem; font-weight: 900; color: var(--primary-color); margin: 5px 0; }
+        .price { font-size: 3rem; font-weight: 900; color: var(--primary-color); margin: 0; }
+        .deposit { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
+        .deposit strong { color: #fff; }
         
-        .time-est {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
+        .time-est { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; font-weight: 600; }
 
         .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
         .btn-act { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
@@ -175,10 +177,13 @@
         .btn-cp { background: #333; color: white; }
 
         .history { width: 100%; max-width: 440px; margin-top: 30px; }
-        .history h3 { font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .history h3 { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+        .btn-clear { background: transparent; border: none; color: #ff4444; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+
         .history-item { background: #151515; padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary-color); font-size: 0.85rem; }
 
-        .btn-aftercare { background: transparent; border: 1px solid #444; color: var(--text-muted); padding: 14px; border-radius: 15px; width: 100%; max-width: 440px; cursor: pointer; margin-top: 25px; font-size: 0.8rem; font-weight: 600; }
+        .btn-aftercare { background: transparent; border: 1px solid #444; color: var(--text-muted); padding: 14px; border-radius: 15px; width: 100%; max-width: 440px; cursor: pointer; margin-top: 25px; font-size: 0.8rem; font-weight: 600; margin-bottom: 40px; }
     </style>
 </head>
 <body>
@@ -192,7 +197,7 @@
     </div>
 
     <div class="mode-switch">
-        <span class="mode-label">Pro</span>
+        <span class="mode-label">Modo Pro</span>
         <label class="switch">
             <input type="checkbox" id="beginnerToggle" onchange="toggleMode()">
             <span class="slider"></span>
@@ -216,7 +221,19 @@
 
     <div class="input-group">
         <label>📍 Zona del Cuerpo</label>
-        <input type="text" id="area" placeholder="Ej: Antebrazo">
+        <input type="text" id="area" list="body-areas" placeholder="Ej: Antebrazo">
+        <datalist id="body-areas">
+            <option value="Antebrazo">
+            <option value="Brazo (Bíceps)">
+            <option value="Muñeca">
+            <option value="Mano / Dedos">
+            <option value="Cuello">
+            <option value="Pecho">
+            <option value="Espalda alta">
+            <option value="Pierna / Muslo">
+            <option value="Pantorrilla">
+            <option value="Tobillo">
+        </datalist>
     </div>
 
     <div class="input-group">
@@ -232,8 +249,8 @@
         <div class="input-group">
             <label>✨ Diseño</label>
             <select id="custom">
-                <option value="0">Catálogo</option>
-                <option value="150">Personalizado</option>
+                <option value="0">Catálogo / Flash</option>
+                <option value="150">Personalizado (+Q150)</option>
             </select>
         </div>
         <div class="input-group">
@@ -249,6 +266,7 @@
 
     <div id="result-box">
         <div class="price" id="price-display">Q0</div>
+        <div class="deposit" id="deposit-display">Anticipo reserva: <strong>Q0</strong></div>
         <div class="time-est" id="time-display">⏱️ Duración: --</div>
         <div class="action-btns">
             <button class="btn-act btn-wa" onclick="sendWhatsApp()">WhatsApp 📲</button>
@@ -258,7 +276,10 @@
 </div>
 
 <div class="history">
-    <h3>HISTORIAL RECIENTE 🕒</h3>
+    <div class="history-header">
+        <h3>HISTORIAL RECIENTE 🕒</h3>
+        <button class="btn-clear" onclick="clearHistory()">Borrar</button>
+    </div>
     <div id="history-list"></div>
 </div>
 
@@ -287,7 +308,7 @@
 
     function calculate() {
         const size = document.getElementById('size').value;
-        const area = document.getElementById('area').value || "la zona elegida";
+        const area = document.getElementById('area').value || "Zona a convenir";
         const factor = parseFloat(document.getElementById('style').value);
         const extra = parseFloat(document.getElementById('custom').value);
         const cover = parseFloat(document.getElementById('cover').value);
@@ -296,7 +317,7 @@
 
         if(!size || size <= 0) return alert("Por favor, ingresa el tamaño del tatuaje");
 
-        // Lógica de Tiempo Estimado (Salamá Intermedio)
+        // Lógica de Tiempo
         let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
         if (size <= 6) hours = 1;
 
@@ -309,15 +330,19 @@
         
         if(currency === '$') total = total / 7.8;
         total = Math.ceil(total / 10) * 10;
+        
+        let deposit = Math.ceil((total * 0.5) / 5) * 5; // 50% de anticipo
 
-        quoteData = { total, size, area, currency, isBeginner, hours };
+        quoteData = { total, deposit, size, area, currency, isBeginner, hours };
         
         // Actualizar UI
         document.getElementById('price-display').innerText = `${currency}${total}`;
         document.getElementById('price-display').style.color = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
         
+        document.getElementById('deposit-display').innerHTML = `Anticipo para reserva: <strong>${currency}${deposit}</strong>`;
+        
         const hLabel = hours === 1 ? 'hora' : 'horas';
-        document.getElementById('time-display').innerText = `⏱️ Duración: ${hours} ${hLabel} aprox.`;
+        document.getElementById('time-display').innerText = `⏱️ Duración estimada: ${hours} ${hLabel}`;
         
         document.getElementById('result-box').style.display = 'block';
         document.getElementById('result-box').style.borderColor = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
@@ -328,31 +353,40 @@
     function saveToHistory(data) {
         let history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
         history.unshift(data);
-        history = history.slice(0, 3);
+        history = history.slice(0, 5);
         localStorage.setItem('tattoo_history', JSON.stringify(history));
         updateHistoryUI();
+    }
+
+    function clearHistory() {
+        if(confirm("¿Deseas borrar el historial?")) {
+            localStorage.removeItem('tattoo_history');
+            updateHistoryUI();
+        }
     }
 
     function updateHistoryUI() {
         const list = document.getElementById('history-list');
         const history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
-        list.innerHTML = history.map(h => {
-            const hLabel = h.hours === 1 ? 'hora' : 'horas';
-            return `
-                <div class="history-item" style="border-left-color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">
-                    <span>${h.size}cm en ${h.area} (${h.hours}h) ${h.isBeginner ? '🏷️' : '🖋️'}</span>
-                    <strong style="color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">${h.currency}${h.total}</strong>
-                </div>
-            `;
-        }).join('');
+        
+        if(history.length === 0) {
+            list.innerHTML = `<p style="font-size:0.7rem; color:#555; text-align:center;">No hay cotizaciones recientes</p>`;
+            return;
+        }
+
+        list.innerHTML = history.map(h => `
+            <div class="history-item" style="border-left-color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">
+                <span>${h.size}cm • ${h.area} ${h.isBeginner ? '🏷️' : '🖋️'}</span>
+                <strong style="color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">${h.currency}${h.total}</strong>
+            </div>
+        `).join('');
     }
 
     function getMessage() {
-        const tag = quoteData.isBeginner ? "Precio Especial 🏷️\n" : "";
+        const tag = quoteData.isBeginner ? "¡PROMOCIÓN ESPECIAL! 🏷️\n" : "COTIZACIÓN PROFESIONAL 🖋️\n";
         const hLabel = quoteData.hours === 1 ? 'hora' : 'horas';
-        const timeMsg = `⏱️ Duración: ${quoteData.hours} ${hLabel} aprox.`;
         
-        return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n${timeMsg}\n💰 Precio: *${quoteData.currency}${quoteData.total}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 Te gustaría agendar una fecha?`;
+        return `Hola! 🙌 Aquí tienes el presupuesto para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n⏱️ Duración: ${quoteData.hours} ${hLabel}\n\n💰 Precio Total: *${quoteData.currency}${quoteData.total}*\n📌 Reserva con: *${quoteData.currency}${quoteData.deposit}*\n\n✨ Incluye: Material 100% descartable, higiene de grado médico y guía de cuidados.\n\n📅 ¿Te gustaría ver fechas disponibles?`;
     }
 
     function copyQuote() {
@@ -364,9 +398,9 @@
     }
 
     function copyAftercare() {
-        const care = `✨ CUIDADOS POSTERIORES ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada 3 veces al día. 🧴\n5. No sol, piscina o gym por 15 días. 🚫\n6. No rascar la zona.`;
+        const care = `✨ CUIDADOS PEACE N' LOVE ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada (capa muy fina) 3 veces al día. 🧴\n5. NO sol, piscinas, mar o gimnasio por 15 días. 🚫\n6. No arrancar costras ni rascar.`;
         fallbackCopy(care, null, null);
-        alert("Instrucciones de cuidado copiadas!");
+        alert("Instrucciones de cuidado copiadas para enviar.");
     }
 
     function fallbackCopy(text, btnId, originalText) {
