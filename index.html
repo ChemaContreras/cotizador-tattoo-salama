@@ -5,419 +5,327 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PEACE N' LOVE - Salamá</title>
     
-    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-color: #00ff88;
-            --secondary-color: #1a1a1a;
-            --accent-glow: rgba(0, 255, 136, 0.3);
-            --bg-dark: #080808;
-            --card-glass: rgba(22, 22, 22, 0.95);
-            --text-light: #ffffff;
-            --text-muted: #a0a0a0;
-            --beginner-color: #ffcc00;
+            --primary: #00ff88;
+            --beginner: #ffcc00;
+            --bg: #0a0a0a;
+            --card: rgba(25, 25, 25, 0.95);
+            --text: #ffffff;
+            --muted: #888;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at top right, #1a1a1a, #080808);
-            color: var(--text-light);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at top right, #1a1a1a, #0a0a0a);
+            color: var(--text);
             margin: 0;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 15px;
             min-height: 100vh;
-            box-sizing: border-box;
         }
 
         .card {
-            background: var(--card-glass);
+            background: var(--card);
             width: 100%;
-            max-width: 440px;
+            max-width: 420px;
             padding: 30px;
-            border-radius: 35px;
+            border-radius: 40px;
             border: 1px solid #333;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            transition: all 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+            box-sizing: border-box;
         }
 
-        .card.beginner-mode {
-            border-color: var(--beginner-color);
-            box-shadow: 0 25px 50px rgba(255, 204, 0, 0.15);
-        }
+        .card.beginner-mode { border-color: var(--beginner); }
 
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .header img {
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-            margin-bottom: 15px;
-            border-radius: 20px;
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo-container {
+            width: 90px; height: 90px;
+            margin: 0 auto 15px;
             background: #111;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            font-weight: 900;
-            text-align: center;
-        }
-
-        .header p {
-            color: var(--primary-color);
-            margin: 5px 0 0;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .mode-switch {
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
+            border: 2px solid #222;
+            overflow: hidden;
+        }
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-container i { font-size: 2.5rem; color: var(--primary); }
+
+        .header h1 { margin: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; }
+        .header p { margin: 8px 0 0; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+
+        .mode-selector {
+            display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 20px;
+            padding: 12px 20px; border-radius: 20px; margin-bottom: 25px;
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 46px;
-            height: 24px;
-        }
-
+        .switch { position: relative; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #444; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background: var(--beginner); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #444;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px; width: 18px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider { background-color: var(--beginner-color); }
-        input:checked + .slider:before { transform: translateX(22px); }
-
-        .mode-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
-
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .input-group { margin-bottom: 15px; width: 100%; }
-        
-        label { display: block; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
         
         input, select {
-            width: 100%;
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            color: white;
-            padding: 14px;
-            border-radius: 16px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border 0.3s;
+            width: 100%; background: #151515; border: 2px solid #222; color: white;
+            padding: 15px; border-radius: 18px; font-size: 1rem; box-sizing: border-box; outline: none;
         }
+        input:focus, select:focus { border-color: var(--primary); }
 
-        input:focus, select:focus { border-color: var(--primary-color); }
-
-        .btn-calc {
-            width: 100%; padding: 18px; background: #fff; color: #000; border: none;
-            border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-top: 10px;
-            transition: transform 0.1s;
+        .btn-main {
+            width: 100%; padding: 20px; background: white; color: black; border: none;
+            border-radius: 20px; font-weight: 900; font-size: 1.1rem; cursor: pointer; text-transform: uppercase;
         }
-        .btn-calc:active { transform: scale(0.98); }
 
         #result-box {
-            margin-top: 25px; display: none; background: rgba(255, 255, 255, 0.03);
-            padding: 22px; border-radius: 25px; text-align: center; border: 1px solid var(--primary-color);
-            animation: fadeIn 0.4s ease;
+            display: none; margin-top: 25px; padding: 25px; border-radius: 30px;
+            background: rgba(255,255,255,0.02); border: 1px solid var(--primary); text-align: center;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .price-tag { font-size: 3.5rem; font-weight: 900; color: var(--primary); margin: 0; }
+        .sub-price { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; }
 
-        .price { font-size: 3rem; font-weight: 900; color: var(--primary-color); margin: 0; }
-        .deposit { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
-        .deposit strong { color: #fff; }
-        
-        .time-est { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; font-weight: 600; }
-
-        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        .btn-act { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-action { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.8rem; }
         .btn-wa { background: #25D366; color: white; }
         .btn-cp { background: #333; color: white; }
+        .btn-qr-gen { grid-column: span 2; background: #6c5ce7; color: white; margin-top: 5px; }
 
-        .history { width: 100%; max-width: 440px; margin-top: 30px; }
-        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-        .history h3 { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
-        .btn-clear { background: transparent; border: none; color: #ff4444; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        #qr-box { display: none; background: white; padding: 20px; border-radius: 25px; margin-top: 20px; }
 
-        .history-item { background: #151515; padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary-color); font-size: 0.85rem; }
+        .history-section { width: 100%; max-width: 420px; margin-top: 30px; }
+        .h-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .h-header h3 { font-size: 0.8rem; color: var(--muted); margin: 0; }
+        .history-card { background: #151515; padding: 15px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--primary); }
 
-        .btn-aftercare { background: transparent; border: 1px solid #444; color: var(--text-muted); padding: 14px; border-radius: 15px; width: 100%; max-width: 440px; cursor: pointer; margin-top: 25px; font-size: 0.8rem; font-weight: 600; margin-bottom: 40px; }
+        .btn-after { background: transparent; border: 1px solid #333; color: var(--muted); padding: 15px; border-radius: 20px; width: 100%; max-width: 420px; margin: 30px 0; cursor: pointer; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <div class="card" id="mainCard">
     <div class="header">
-        <img src="logo.png" alt="Logo">
+        <div class="logo-container">
+            <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+            <i class="fas fa-hand-holding-heart" style="display:none;"></i> 
+        </div>
         <h1>PEACE N' LOVE</h1>
-        <h1>TATTOO STUDIO</h1>
-        <p id="subHeader">Salamá • Cotizador Pro</p>
+        <p id="status-label">Salamá • Cotizador Pro</p>
     </div>
 
-    <div class="mode-switch">
-        <span class="mode-label">Modo Pro</span>
+    <div class="mode-selector">
+        <span style="font-size: 0.7rem; font-weight: 900;">MODO PRO</span>
         <label class="switch">
-            <input type="checkbox" id="beginnerToggle" onchange="toggleMode()">
+            <input type="checkbox" id="beginnerToggle" onchange="updateUI()">
             <span class="slider"></span>
         </label>
-        <span class="mode-label">Special Light</span>
+        <span style="font-size: 0.7rem; font-weight: 900; color: var(--beginner)">SPECIAL LIGHT</span>
     </div>
 
-    <div class="form-row">
-        <div class="input-group">
+    <div class="form-grid">
+        <div class="input-box">
             <label>💰 Moneda</label>
-            <select id="currency">
-                <option value="Q">GTQ (Q)</option>
-                <option value="$">USD ($)</option>
-            </select>
+            <select id="currency"><option value="Q">GTQ (Q)</option><option value="$">USD ($)</option></select>
         </div>
-        <div class="input-group">
+        <div class="input-box">
             <label>📏 Tamaño (cm)</label>
-            <input type="number" id="size" placeholder="0" inputmode="numeric">
+            <input type="number" id="size" placeholder="cm" inputmode="numeric">
         </div>
     </div>
 
-    <div class="input-group">
-        <label>📍 Zona del Cuerpo</label>
-        <input type="text" id="area" list="body-areas" placeholder="Ej: Antebrazo">
-        <datalist id="body-areas">
-            <option value="Antebrazo">
-            <option value="Brazo (Bíceps)">
-            <option value="Muñeca">
-            <option value="Mano / Dedos">
-            <option value="Cuello">
-            <option value="Pecho">
-            <option value="Espalda alta">
-            <option value="Pierna / Muslo">
-            <option value="Pantorrilla">
-            <option value="Tobillo">
-        </datalist>
-    </div>
-
-    <div class="input-group">
-        <label>🎨 Estilo & Sombras</label>
+    <div class="input-box">
+        <label>🎨 Estilo & Complejidad</label>
         <select id="style">
             <option value="1.0">Línea Fina / Minimalista</option>
-            <option value="1.25">Sombreado / Detalle Medio</option>
-            <option value="1.5">Sólido / Blackout / Realismo</option>
+            <option value="1.3">Ilustrativo / Floral</option>
+            <option value="1.5">Blackwork / Sombreado Pro</option>
+            <option value="1.8">Realismo / Detalle Máximo</option>
         </select>
     </div>
 
-    <div class="form-row">
-        <div class="input-group">
+    <div class="input-box">
+        <label>📍 Zona del Cuerpo</label>
+        <input type="text" id="area" list="body-list" placeholder="¿Dónde será el tattoo?">
+        <datalist id="body-list">
+            <option value="Cara / Cabeza">
+            <option value="Detrás de la oreja">
+            <option value="Cuello (Lateral/Frontal)">
+            <option value="Nuca">
+            <option value="Hombro">
+            <option value="Clavícula">
+            <option value="Pecho / Esternón">
+            <option value="Costillas / Lateral">
+            <option value="Abdomen / Estómago">
+            <option value="Espalda Alta (Trapecio)">
+            <option value="Espalda Media / Omóplato">
+            <option value="Espalda Baja (Lumbar)">
+            <option value="Columna vertebral">
+            <option value="Brazo (Bíceps/Tríceps)">
+            <option value="Codo">
+            <option value="Antebrazo (Interno)">
+            <option value="Antebrazo (Externo)">
+            <option value="Muñeca">
+            <option value="Mano (Dorso)">
+            <option value="Dedos">
+            <option value="Cadera / Pelvis">
+            <option value="Glúteo">
+            <option value="Muslo (Frontal)">
+            <option value="Muslo (Lateral/Posterior)">
+            <option value="Rodilla">
+            <option value="Espinilla">
+            <option value="Pantorrilla / Gemelo">
+            <option value="Tobillo">
+            <option value="Pie / Empeine">
+        </datalist>
+    </div>
+
+    <div class="form-grid">
+        <div class="input-box">
             <label>✨ Diseño</label>
-            <select id="custom">
-                <option value="0">Catálogo / Flash</option>
-                <option value="150">Personalizado (+Q150)</option>
-            </select>
+            <select id="custom"><option value="0">Flash / Catálogo</option><option value="150">Personalizado (+150)</option></select>
         </div>
-        <div class="input-group">
-            <label>🔄 Cover-up</label>
-            <select id="cover">
-                <option value="1.0">No</option>
-                <option value="1.3">Sí (+30%)</option>
-            </select>
+        <div class="input-box">
+            <label>🔄 Cover Up</label>
+            <select id="cover"><option value="1.0">No</option><option value="1.4">Sí (+40%)</option></select>
         </div>
     </div>
 
-    <button type="button" class="btn-calc" onclick="calculate()">CALCULAR PRECIO</button>
+    <button class="btn-main" onclick="calculate()">GENERAR COTIZACIÓN</button>
 
     <div id="result-box">
-        <div class="price" id="price-display">Q0</div>
-        <div class="deposit" id="deposit-display">Anticipo reserva: <strong>Q0</strong></div>
-        <div class="time-est" id="time-display">⏱️ Duración: --</div>
-        <div class="action-btns">
-            <button class="btn-act btn-wa" onclick="sendWhatsApp()">WhatsApp 📲</button>
-            <button class="btn-act btn-cp" id="btnCopy" onclick="copyQuote()">Copiar 📋</button>
+        <div class="price-tag" id="res-price">Q0</div>
+        <div class="sub-price" id="res-dep">Reserva con: <strong>Q0</strong></div>
+        
+        <div class="action-grid">
+            <button class="btn-action btn-wa" onclick="sendWhatsApp()">WhatsApp 📲</button>
+            <button class="btn-action btn-cp" id="btnCopy" onclick="copyQuote()">Copiar 📋</button>
+            <button class="btn-action btn-qr-gen" onclick="showQR()">MOSTRAR CÓDIGO QR 🔳</button>
+        </div>
+
+        <div id="qr-box">
+            <canvas id="qr-canvas"></canvas>
+            <p style="color:black; font-size:0.7rem; font-weight:800; margin-top:10px;">ESCANEA PARA RECIBIR EN TU CELULAR</p>
         </div>
     </div>
 </div>
 
-<div class="history">
-    <div class="history-header">
-        <h3>HISTORIAL RECIENTE 🕒</h3>
-        <button class="btn-clear" onclick="clearHistory()">Borrar</button>
+<div class="history-section">
+    <div class="h-header">
+        <h3>RECIENTES</h3>
+        <button onclick="clearHistory()" style="background:none; border:none; color:red; font-size:0.6rem; font-weight:800; cursor:pointer;">LIMPIAR</button>
     </div>
     <div id="history-list"></div>
 </div>
 
-<button class="btn-aftercare" onclick="copyAftercare()">📋 Instrucciones de Cuidados (Aftercare)</button>
+<button class="btn-after" onclick="copyAftercare()">📋 Instrucciones de Cuidados (Aftercare)</button>
 
 <script>
-    let quoteData = {};
+    let currentData = {};
 
-    function toggleMode() {
-        const isBeginner = document.getElementById('beginnerToggle').checked;
-        const card = document.getElementById('mainCard');
-        const subHeader = document.getElementById('subHeader');
-        const resultBox = document.getElementById('result-box');
-
-        if (isBeginner) {
-            card.classList.add('beginner-mode');
-            subHeader.innerText = "Salamá • Precio Especial";
-            subHeader.style.color = "var(--beginner-color)";
-        } else {
-            card.classList.remove('beginner-mode');
-            subHeader.innerText = "Salamá • Cotizador Pro";
-            subHeader.style.color = "var(--primary-color)";
-        }
-        resultBox.style.display = 'none';
+    function updateUI() {
+        const isLight = document.getElementById('beginnerToggle').checked;
+        const lbl = document.getElementById('status-label');
+        lbl.innerText = isLight ? "Salamá • Special Light" : "Salamá • Cotizador Pro";
+        lbl.style.color = isLight ? "var(--beginner)" : "var(--primary)";
+        document.getElementById('mainCard').classList.toggle('beginner-mode', isLight);
+        document.getElementById('result-box').style.display = 'none';
     }
 
     function calculate() {
-        const size = document.getElementById('size').value;
-        const area = document.getElementById('area').value || "Zona a convenir";
-        const factor = parseFloat(document.getElementById('style').value);
+        const size = parseFloat(document.getElementById('size').value);
+        if(!size) return alert("Por favor, ingresa el tamaño en cm.");
+
+        const isLight = document.getElementById('beginnerToggle').checked;
+        const styleFactor = parseFloat(document.getElementById('style').value);
         const extra = parseFloat(document.getElementById('custom').value);
-        const cover = parseFloat(document.getElementById('cover').value);
+        const coverFactor = parseFloat(document.getElementById('cover').value);
         const currency = document.getElementById('currency').value;
-        const isBeginner = document.getElementById('beginnerToggle').checked;
 
-        if(!size || size <= 0) return alert("Por favor, ingresa el tamaño del tatuaje");
+        let hours = size > 18 ? 5 : (size > 10 ? 3 : (size > 5 ? 2 : 1));
+        let baseRate = isLight ? 150 : 250; 
+        let total = (baseRate * hours * styleFactor * coverFactor) + extra;
 
-        // Lógica de Tiempo
-        let hours = (size > 18) ? 5 : (size > 12 ? 3 : 2);
-        if (size <= 6) hours = 1;
-
-        // Lógica de Precios
-        const minBase = isBeginner ? 150 : 250;
-        const hourlyRate = isBeginner ? 150 : (factor >= 1.5 ? 300 : 250);
-
-        let total = minBase + (hours * hourlyRate * factor);
-        total = (total + extra) * cover;
-        
         if(currency === '$') total = total / 7.8;
         total = Math.ceil(total / 10) * 10;
-        
-        let deposit = Math.ceil((total * 0.5) / 5) * 5; // 50% de anticipo
+        let deposit = Math.ceil((total * 0.5) / 5) * 5;
 
-        quoteData = { total, deposit, size, area, currency, isBeginner, hours };
-        
-        // Actualizar UI
-        document.getElementById('price-display').innerText = `${currency}${total}`;
-        document.getElementById('price-display').style.color = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
-        
-        document.getElementById('deposit-display').innerHTML = `Anticipo para reserva: <strong>${currency}${deposit}</strong>`;
-        
-        const hLabel = hours === 1 ? 'hora' : 'horas';
-        document.getElementById('time-display').innerText = `⏱️ Duración estimada: ${hours} ${hLabel}`;
-        
+        currentData = { total, deposit, size, hours, currency, area: document.getElementById('area').value || "la zona elegida", isLight };
+
+        document.getElementById('res-price').innerText = `${currency}${total}`;
+        document.getElementById('res-dep').innerHTML = `Anticipo reserva: <strong>${currency}${deposit}</strong>`;
         document.getElementById('result-box').style.display = 'block';
-        document.getElementById('result-box').style.borderColor = isBeginner ? "var(--beginner-color)" : "var(--primary-color)";
-
-        saveToHistory(quoteData);
+        document.getElementById('qr-box').style.display = 'none';
+        saveHistory(currentData);
     }
 
-    function saveToHistory(data) {
-        let history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
-        history.unshift(data);
-        history = history.slice(0, 5);
-        localStorage.setItem('tattoo_history', JSON.stringify(history));
-        updateHistoryUI();
+    function showQR() {
+        const box = document.getElementById('qr-box');
+        box.style.display = 'block';
+        new QRious({
+            element: document.getElementById('qr-canvas'),
+            value: `https://wa.me/?text=${encodeURIComponent(getMsg())}`,
+            size: 200, level: 'H'
+        });
+        box.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function clearHistory() {
-        if(confirm("¿Deseas borrar el historial?")) {
-            localStorage.removeItem('tattoo_history');
-            updateHistoryUI();
-        }
-    }
-
-    function updateHistoryUI() {
-        const list = document.getElementById('history-list');
-        const history = JSON.parse(localStorage.getItem('tattoo_history') || '[]');
+    function getMsg() {
+        const tag = currentData.isLight ? "Precio Especial 🏷️\n" : "";
+        const hLabel = currentData.hours === 1 ? 'hora' : 'horas';
         
-        if(history.length === 0) {
-            list.innerHTML = `<p style="font-size:0.7rem; color:#555; text-align:center;">No hay cotizaciones recientes</p>`;
-            return;
-        }
+        return `Hola! 🙌 Aquí tienes la cotización para tu tatuaje:\n\n${tag}📏 Medida: ${currentData.size}cm aprox.\n📍 Zona: ${currentData.area}\n⏱️ Duración: ${currentData.hours} ${hLabel} aprox.\n💰 Precio: *${currentData.currency}${currentData.total}*\n📌 Reserva con: *${currentData.currency}${currentData.deposit}*\n\n✨ Incluye: Material profesional descartable, higiene de grado médico y retoque.\n\n📅 ¿Te gustaría agendar una fecha?`;
+    }
 
-        list.innerHTML = history.map(h => `
-            <div class="history-item" style="border-left-color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">
-                <span>${h.size}cm • ${h.area} ${h.isBeginner ? '🏷️' : '🖋️'}</span>
-                <strong style="color: ${h.isBeginner ? 'var(--beginner-color)' : 'var(--primary-color)'}">${h.currency}${h.total}</strong>
+    function saveHistory(data) {
+        let h = JSON.parse(localStorage.getItem('pnl_history') || '[]');
+        h.unshift(data);
+        localStorage.setItem('pnl_history', JSON.stringify(h.slice(0, 5)));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const h = JSON.parse(localStorage.getItem('pnl_history') || '[]');
+        document.getElementById('history-list').innerHTML = h.map(i => `
+            <div class="history-card" style="border-color:${i.isLight ? 'var(--beginner)':'var(--primary)'}">
+                <span>${i.size}cm en ${i.area}</span>
+                <strong style="color:${i.isLight ? 'var(--beginner)':'var(--primary)'}">${i.currency}${i.total}</strong>
             </div>
         `).join('');
     }
 
-    function getMessage() {
-        const tag = quoteData.isBeginner ? "¡PROMOCIÓN ESPECIAL! 🏷️\n" : "COTIZACIÓN PROFESIONAL 🖋️\n";
-        const hLabel = quoteData.hours === 1 ? 'hora' : 'horas';
-        
-        return `Hola! 🙌 Aquí tienes el presupuesto para tu tatuaje:\n\n${tag}📏 Medida: ${quoteData.size}cm aprox.\n📍 Zona: ${quoteData.area}\n⏱️ Duración: ${quoteData.hours} ${hLabel}\n\n💰 Precio Total: *${quoteData.currency}${quoteData.total}*\n📌 Reserva con: *${quoteData.currency}${quoteData.deposit}*\n\n✨ Incluye: Material 100% descartable, higiene de grado médico y guía de cuidados.\n\n📅 ¿Te gustaría ver fechas disponibles?`;
-    }
-
-    function copyQuote() {
-        fallbackCopy(getMessage(), "btnCopy", "Copiar 📋");
-    }
-
-    function sendWhatsApp() {
-        window.open(`https://wa.me/?text=${encodeURIComponent(getMessage())}`, '_blank');
-    }
-
+    function clearHistory() { if(confirm("¿Borrar historial?")) { localStorage.removeItem('pnl_history'); renderHistory(); } }
+    function sendWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(getMsg())}`, '_blank'); }
+    function copyQuote() { copyText(getMsg(), "btnCopy", "COPIADO ✅"); }
+    
     function copyAftercare() {
-        const care = `✨ CUIDADOS PEACE N' LOVE ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada (capa muy fina) 3 veces al día. 🧴\n5. NO sol, piscinas, mar o gimnasio por 15 días. 🚫\n6. No arrancar costras ni rascar.`;
-        fallbackCopy(care, null, null);
-        alert("Instrucciones de cuidado copiadas para enviar.");
+        const care = `✨ CUIDADOS POSTERIORES ✨\n\n1. Retirar el parche en 2-4 horas. 🧼\n2. Lavar con jabón neutro y agua fría.\n3. Secar a toques con papel desechable. 🧻\n4. Aplicar pomada recomendada 3 veces al día. 🧴\n5. No sol, piscina o gym por 15 días. 🚫\n6. No rascar la zona.`;
+        copyText(care, null, null);
+        alert("Instrucciones de cuidado copiadas!");
     }
 
-    function fallbackCopy(text, btnId, originalText) {
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        if(btnId) {
-            const btn = document.getElementById(btnId);
-            btn.innerText = "COPIADO ✅";
-            setTimeout(() => btn.innerText = originalText, 2000);
+    function copyText(txt, id, success) {
+        const temp = document.createElement('textarea'); temp.value = txt;
+        document.body.appendChild(temp); temp.select(); document.execCommand('copy');
+        document.body.removeChild(temp);
+        if(id) { 
+            const b = document.getElementById(id); const orig = b.innerText; 
+            b.innerText = success; setTimeout(() => b.innerText = orig, 2000); 
         }
     }
-
-    updateHistoryUI();
+    renderHistory();
 </script>
 </body>
 </html>
