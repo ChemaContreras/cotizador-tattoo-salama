@@ -45,73 +45,76 @@
 
         .card.beginner-mode { border-color: var(--beginner); }
 
+        /* LOGO RESTAURADO */
         .header { text-align: center; margin-bottom: 25px; }
         .logo-container {
-            width: 80px; height: 80px;
-            margin: 0 auto 10px;
+            width: 90px; height: 90px;
+            margin: 0 auto 15px;
             background: #111;
-            border-radius: 20px;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid #222;
+            overflow: hidden;
         }
-        .logo-container i { font-size: 2rem; color: var(--primary); }
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-container i { font-size: 2.5rem; color: var(--primary); }
 
-        .header h1 { margin: 0; font-size: 1.5rem; font-weight: 900; }
-        .header p { margin: 5px 0 0; font-size: 0.7rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+        .header h1 { margin: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; }
+        .header p { margin: 8px 0 0; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
 
         .mode-selector {
             display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.05);
-            padding: 10px 18px; border-radius: 20px; margin-bottom: 20px;
+            padding: 12px 20px; border-radius: 20px; margin-bottom: 25px;
         }
 
-        .switch { position: relative; width: 44px; height: 22px; }
+        .switch { position: relative; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #444; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background: var(--beginner); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
-        .input-box { margin-bottom: 12px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        label { display: block; font-size: 0.6rem; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; margin-left: 4px; }
+        .input-box { margin-bottom: 15px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
         
         input, select {
             width: 100%; background: #151515; border: 2px solid #222; color: white;
-            padding: 12px; border-radius: 15px; font-size: 0.95rem; box-sizing: border-box; outline: none;
+            padding: 15px; border-radius: 18px; font-size: 1rem; box-sizing: border-box; outline: none;
         }
         input:focus { border-color: var(--primary); }
 
         .btn-main {
-            width: 100%; padding: 18px; background: white; color: black; border: none;
-            border-radius: 18px; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; margin-top: 5px;
+            width: 100%; padding: 20px; background: white; color: black; border: none;
+            border-radius: 20px; font-weight: 900; font-size: 1.1rem; cursor: pointer; text-transform: uppercase;
         }
 
         #result-box {
-            display: none; margin-top: 20px; padding: 20px; border-radius: 25px;
+            display: none; margin-top: 25px; padding: 25px; border-radius: 30px;
             background: rgba(255,255,255,0.02); border: 1px solid var(--primary); text-align: center;
         }
 
-        .price-tag { font-size: 3rem; font-weight: 900; color: var(--primary); margin: 0; }
-        .session-info { font-size: 0.85rem; color: var(--beginner); margin: 5px 0 15px; font-weight: 700; }
-        .sub-price { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; }
+        .price-tag { font-size: 3.5rem; font-weight: 900; color: var(--primary); margin: 0; }
+        .session-info { font-size: 1rem; color: var(--beginner); margin: 5px 0 15px; font-weight: 800; }
+        .sub-price { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; }
 
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-action { border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
+        .btn-action { border: none; padding: 15px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 0.8rem; }
         .btn-wa { background: #25D366; color: white; }
         .btn-cp { background: #333; color: white; }
-        .btn-qr-gen { grid-column: span 2; background: #6c5ce7; color: white; }
+        .btn-qr-gen { grid-column: span 2; background: #6c5ce7; color: white; margin-top: 5px; }
 
-        #qr-box { display: none; background: white; padding: 15px; border-radius: 20px; margin-top: 15px; }
+        #qr-box { display: none; background: white; padding: 20px; border-radius: 25px; margin-top: 20px; }
 
-        .history-section { width: 100%; max-width: 420px; margin-top: 25px; }
-        .h-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .h-header h3 { font-size: 0.75rem; color: var(--muted); margin: 0; }
-        .history-card { background: #151515; padding: 12px; border-radius: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; border-left: 4px solid var(--primary); font-size: 0.8rem; }
+        .history-section { width: 100%; max-width: 420px; margin-top: 30px; }
+        .h-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .h-header h3 { font-size: 0.8rem; color: var(--muted); margin: 0; }
+        .history-card { background: #151515; padding: 15px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--primary); font-size: 0.85rem; }
 
-        .btn-after { background: transparent; border: 1px solid #333; color: var(--muted); padding: 12px; border-radius: 15px; width: 100%; max-width: 420px; margin: 25px 0; cursor: pointer; font-weight: 700; font-size: 0.75rem; }
+        .btn-after { background: transparent; border: 1px solid #333; color: var(--muted); padding: 15px; border-radius: 20px; width: 100%; max-width: 420px; margin: 30px 0; cursor: pointer; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -119,25 +122,25 @@
 <div class="card" id="mainCard">
     <div class="header">
         <div class="logo-container">
-            <i class="fas fa-ink-pen"></i>
+            <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+            <i class="fas fa-palette" style="display:none;"></i> 
         </div>
         <h1>PEACE N' LOVE</h1>
-        <h1>Tattoo Studio</h1>
         <p id="status-label">Salamá • Cotizador Pro</p>
     </div>
 
     <div class="mode-selector">
-        <span style="font-size: 0.65rem; font-weight: 900;">MODO PRO</span>
+        <span style="font-size: 0.7rem; font-weight: 900;">MODO PRO</span>
         <label class="switch">
             <input type="checkbox" id="beginnerToggle" onchange="updateUI()">
             <span class="slider"></span>
         </label>
-        <span style="font-size: 0.65rem; font-weight: 900; color: var(--beginner)">SPECIAL LIGHT</span>
+        <span style="font-size: 0.7rem; font-weight: 900; color: var(--beginner)">SPECIAL LIGHT</span>
     </div>
 
     <div class="input-box">
         <label>👤 Nombre del Cliente</label>
-        <input type="text" id="clientName" placeholder="Escribe el nombre del cliente">
+        <input type="text" id="clientName" placeholder="Ej: Maria Lopez">
     </div>
 
     <div class="form-grid">
@@ -174,9 +177,9 @@
 
     <div class="input-box">
         <label>📍 Zona del Cuerpo</label>
-        <input type="text" id="area" list="body-list" placeholder="Selecciona la zona">
+        <input type="text" id="area" list="body-list" placeholder="¿Dónde será el tattoo?">
         <datalist id="body-list">
-            <option value="Antebrazo"><option value="Brazo"><option value="Muñeca"><option value="Cuello"><option value="Pecho"><option value="Espalda"><option value="Costillas"><option value="Muslo"><option value="Pantorrilla"><option value="Tobillo"><option value="Mano"><option value="Dedos">
+            <option value="Cara / Cabeza"><option value="Cuello"><option value="Nuca"><option value="Hombro"><option value="Clavícula"><option value="Pecho"><option value="Costillas"><option value="Abdomen"><option value="Espalda"><option value="Columna"><option value="Brazo"><option value="Antebrazo"><option value="Muñeca"><option value="Mano / Dedos"><option value="Muslo"><option value="Rodilla"><option value="Pantorrilla"><option value="Tobillo"><option value="Pie">
         </datalist>
     </div>
 
@@ -206,7 +209,7 @@
 
         <div id="qr-box">
             <canvas id="qr-canvas"></canvas>
-            <p style="color:black; font-size:0.65rem; font-weight:800; margin-top:8px;">ESCANEA PARA RECIBIR COTIZACIÓN</p>
+            <p style="color:black; font-size:0.7rem; font-weight:800; margin-top:10px;">ESCANEA PARA RECIBIR COTIZACIÓN</p>
         </div>
     </div>
 </div>
@@ -214,7 +217,7 @@
 <div class="history-section">
     <div class="h-header">
         <h3>RECIENTES</h3>
-        <button onclick="clearHistory()" style="background:none; border:none; color:red; font-size:0.6rem; font-weight:800; cursor:pointer;">BORRAR</button>
+        <button onclick="clearHistory()" style="background:none; border:none; color:red; font-size:0.6rem; font-weight:800; cursor:pointer;">LIMPIAR</button>
     </div>
     <div id="history-list"></div>
 </div>
@@ -235,7 +238,7 @@
 
     function calculate() {
         const size = parseFloat(document.getElementById('size').value);
-        if(!size) return alert("Por favor, ingresa el tamaño.");
+        if(!size) return alert("Por favor, ingresa el tamaño en cm.");
 
         const isLight = document.getElementById('beginnerToggle').checked;
         const styleFactor = parseFloat(document.getElementById('style').value);
@@ -341,4 +344,3 @@
 </script>
 </body>
 </html>
-
